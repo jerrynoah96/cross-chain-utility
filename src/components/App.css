@@ -10,9 +10,12 @@ body{
 }
 nav{
     color: rgba(255, 255, 255);
-    height: 5vh;
+    height: 8vh;
     padding-right: 1rem !important;
     font-size: 1.5rem;
+}
+nav small{
+    font-size: 1.4rem;
 }
 .swap-form {
     width: 400px;
