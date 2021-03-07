@@ -30,7 +30,7 @@ class BuyForm extends Component {
             onChange={(event) => {
               const etherAmount = this.input.value.toString()
               this.setState({
-                output: etherAmount * 100
+                output: etherAmount * 1.5
               })
             }}
             ref={(input) => { this.input = input }}
