@@ -1,7 +1,5 @@
 import React, { Component } from 'react'
 import Web3 from 'web3'
-import Token from '../abis/Token.json'
-import EthSwap from '../abis/EthSwap.json'
 import Navbar from './Navbar'
 import Main from './Main'
 import './App.css'
@@ -24,25 +22,7 @@ class App extends Component {
 
     // Load Token
     const networkId =  await web3.eth.net.getId()
-    const tokenData = Token.networks[networkId]
-    if(tokenData) {
-      const token = new web3.eth.Contract(Token.abi, tokenData.address)
-      this.setState({ token })
-      let tokenBalance = await token.methods.balanceOf(this.state.account).call()
-      this.setState({ tokenBalance: tokenBalance.toString() })
-    } else {
-      window.alert('Token contract not deployed to detected network.')
-    }
-
-    // Load EthSwap
-    const ethSwapData = EthSwap.networks[networkId]
-    if(ethSwapData) {
-      const ethSwap = new web3.eth.Contract(EthSwap.abi, ethSwapData.address)
-      this.setState({ ethSwap })
-    } else {
-      window.alert('EthSwap contract not deployed to detected network.')
-    }
-
+  
     this.setState({ loading: false })
   }
 
@@ -59,21 +39,6 @@ class App extends Component {
     }
   }
 
-  buyTokens = (etherAmount) => {
-    this.setState({ loading: true })
-    this.state.ethSwap.methods.buyTokens().send({ value: etherAmount, from: this.state.account }).on('transactionHash', (hash) => {
-      this.setState({ loading: false })
-    })
-  }
-
-  sellTokens = (tokenAmount) => {
-    this.setState({ loading: true })
-    this.state.token.methods.approve(this.state.ethSwap.address, tokenAmount).send({ from: this.state.account }).on('transactionHash', (hash) => {
-      this.state.ethSwap.methods.sellTokens(tokenAmount).send({ from: this.state.account }).on('transactionHash', (hash) => {
-        this.setState({ loading: false })
-      })
-    })
-  }
 
   constructor(props) {
     super(props)
@@ -95,8 +60,6 @@ class App extends Component {
       content = <Main
         ethBalance={this.state.ethBalance}
         tokenBalance={this.state.tokenBalance}
-        buyTokens={this.buyTokens}
-        sellTokens={this.sellTokens}
       />
     }
 
@@ -105,16 +68,9 @@ class App extends Component {
         <Navbar account={this.state.account} />
         <div className="container-fluid mt-5">
           <div className="row">
-            <main role="main" className="col-lg-12 ml-auto mr-auto" style={{ maxWidth: '600px' }}>
+            <main role="main" className="col-lg-12 ml-auto mr-auto" style={{ maxWidth: '400px' }}>
               <div className="content mr-auto ml-auto">
-                <a
-                  href="http://www.dappuniversity.com/bootcamp"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                </a>
-
-                {content}
+              {content}
 
               </div>
             </main>

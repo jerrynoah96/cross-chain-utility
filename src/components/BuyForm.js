@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
-import tokenLogo from '../token-logo.png'
-import ethLogo from '../eth-logo.png'
+
 
 class BuyForm extends Component {
   constructor(props) {
@@ -20,9 +19,9 @@ class BuyForm extends Component {
           this.props.buyTokens(etherAmount)
         }}>
         <div>
-          <label className="float-left"><b>Input</b></label>
+          <label className="float-left">Value</label>
           <span className="float-right text-muted">
-            Balance: {window.web3.utils.fromWei(this.props.ethBalance, 'Ether')}
+            Bal: {window.web3.utils.fromWei(this.props.ethBalance, 'Ether')}
           </span>
         </div>
         <div className="input-group mb-4">
@@ -40,15 +39,14 @@ class BuyForm extends Component {
             required />
           <div className="input-group-append">
             <div className="input-group-text">
-              <img src={ethLogo} height='32' alt=""/>
-              &nbsp;&nbsp;&nbsp; ETH
+              <img src= "https://raw.githubusercontent.com/HydroBlockchain/projecthydro.org-2021/master/assets/images/hydrologo.png" height='25' alt=""/>
             </div>
           </div>
         </div>
         <div>
-          <label className="float-left"><b>Output</b></label>
+          <label className="float-left">You get</label>
           <span className="float-right text-muted">
-            Balance: {window.web3.utils.fromWei(this.props.tokenBalance, 'Ether')}
+            Bal: {window.web3.utils.fromWei(this.props.tokenBalance, 'Ether')}
           </span>
         </div>
         <div className="input-group mb-2">
@@ -61,16 +59,12 @@ class BuyForm extends Component {
           />
           <div className="input-group-append">
             <div className="input-group-text">
-              <img src={tokenLogo} height='32' alt=""/>
-              &nbsp; DApp
+              <img src="https://raw.githubusercontent.com/HydroBlockchain/projecthydro.org-2021/master/assets/images/hydrologo.png" height='25' alt=""/> 
             </div>
           </div>
         </div>
-        <div className="mb-5">
-          <span className="float-left text-muted">Exchange Rate</span>
-          <span className="float-right text-muted">1 ETH = 100 DApp</span>
-        </div>
-        <button type="submit" className="btn btn-primary btn-block btn-lg">SWAP!</button>
+        
+        <button type="submit" className="btn btn-block btn-lg swap-btn">Swap</button>
       </form>
     );
   }
