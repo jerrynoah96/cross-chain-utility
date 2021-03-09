@@ -1,26 +1,52 @@
 import React, { Component } from 'react'
-import BuyForm from './BuyForm'
+import EthToBsc from './eth_bsc';
+import BscToEth from './bsc_eth';
 
 
 class Main extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      currentForm: 'buy'
+      currentForm: 'eth to bsc'
     }
   }
 
   render() {
     let content
-    if(this.state.currentForm === 'buy') {
-      content = <BuyForm
+    if(this.state.currentForm === 'eth to bsc') {
+      content = <EthToBsc
         ethBalance={this.props.ethBalance}
         tokenBalance={this.props.tokenBalance}
       />
     } 
+    else{
+      content = <BscToEth
+      ethBalance={this.props.ethBalance}
+        tokenBalance={this.props.tokenBalance}/>
+    }
 
     return (
       <div id="content" className="mt-3 swap-form">
+
+        <div className="d-flex justify-content-between mb-3">
+          <button
+              className="btn btn-light"
+              onClick={(event) => {
+                this.setState({ currentForm: 'eth to bsc' })
+              }}
+            >
+            Eth_to_Bsc
+          </button>
+          <span className="text-muted">&lt; &nbsp; &gt;</span>
+          <button
+              className="btn btn-light"
+              onClick={(event) => {
+                this.setState({ currentForm: 'sell' })
+              }}
+            >
+            Bsc_to_Eth
+          </button>
+        </div>
         <div className="card mb-4" >
 
           <div className="card-body main-form">

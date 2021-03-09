@@ -3,7 +3,6 @@
 body{
     background-color: rgba(0,0,0, 0.7);
     height: 100vh;
-    overflow-y:hidden ;
     position: relative;
     font-family: Georgia, 'Times New Roman', Times, serif;
    
@@ -35,4 +34,7 @@ nav small{
 
 input:focus{
     outline: none !important;
+}
+form h3{
+    text-align: center;
 }

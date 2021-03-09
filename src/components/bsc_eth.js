@@ -18,6 +18,7 @@ class BuyForm extends Component {
           etherAmount = window.web3.utils.toWei(etherAmount, 'Ether')
           this.props.buyTokens(etherAmount)
         }}>
+          <h3>Bep20 to Erc20</h3>
         <div>
           <label className="float-left">Value</label>
           <span className="float-right text-muted">
