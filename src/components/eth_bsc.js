@@ -1,38 +1,82 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
+import Modal from 'react-modal';
 
-
-class BuyForm extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      output: '0'
+Modal.setAppElement('#root');
+class EthToBsc extends Component {
+  state = {
+      output: '0',
+      modal: false,
+      addedFund: '0',
+      hydroAddress: "0xa8377d8A0ee92120095bC7ae2d8A8E1973CcEa95",
+      swapAmount: null
     }
+
+    handleInputAmount = (e)=> {
+      this.setState({
+        addedFund: e.target.value
+      })
+    }
+
+    addFund = (e)=> {
+      e.preventDefault();
+      this.props.addFunds(this.state.hydroAddress, this.state.addedFund);
+      console.log(this.state.addedFund);
+      console.log(this.state.hydroAddress);
+
+    }
+
+    handleSwapAmount = (e)=> {
+      this.setState({
+        swapAmount: e.target.value
+
+      })
+    }
+
+    swap = (e)=> {
+      e.preventDefault();
+      this.props.ethToBscSwap(this.state.swapAmount);
+      console.log(this.state.swapAmount, "swap")
+    }
+
+  
+
+  openModal =()=> {
+    this.setState({
+      modal: true
+    })
   }
 
   render() {
     return (
-      <form className="mb-3" onSubmit={(event) => {
-          event.preventDefault()
-          let etherAmount
-          etherAmount = this.input.value.toString()
-          etherAmount = window.web3.utils.toWei(etherAmount, 'Ether')
-          this.props.buyTokens(etherAmount)
-        }}>
+    <div className="tx-interface">
+      <Modal className="modal" isOpen={this.state.modal} onRequestClose={()=> this.setState({modal: false})}>
+           <form onSubmit={this.addFund}>
+             <input placeholder="enter amount" type="number" onChange={this.handleInputAmount}/>
+             <button>Add funds</button>
+             
+          </form> 
+        </Modal>
+
+        <button className="open-add-fund"
+            onClick={this.openModal}>Add funds</button>
+      <form className="mb-3" onSubmit={this.swap} >
           <h3>Erc20 to Bep20</h3>
         <div>
           <label className="float-left">Value</label>
           <span className="float-right text-muted">
-            Bal: {window.web3.utils.fromWei(this.props.ethBalance, 'Ether')}
+            Bal: {this.props.allowedHydro}
           </span>
         </div>
         <div className="input-group mb-4">
           <input
             type="text"
             onChange={(event) => {
-              const etherAmount = this.input.value.toString()
+              const amount = this.input.value.toString()
               this.setState({
-                output: etherAmount * 1.5
+                output: amount * 1,
+                swapAmount: amount
               })
+
             }}
             ref={(input) => { this.input = input }}
             className="form-control form-control-lg"
@@ -46,9 +90,7 @@ class BuyForm extends Component {
         </div>
         <div>
           <label className="float-left">You get</label>
-          <span className="float-right text-muted">
-            Bal: {window.web3.utils.fromWei(this.props.tokenBalance, 'Ether')}
-          </span>
+          
         </div>
         <div className="input-group mb-2">
           <input
@@ -67,8 +109,9 @@ class BuyForm extends Component {
         
         <button type="submit" className="btn btn-block btn-lg swap-btn">Swap</button>
       </form>
+    </div>
     );
   }
 }
 
-export default BuyForm;
+export default EthToBsc;

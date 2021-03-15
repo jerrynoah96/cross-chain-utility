@@ -12,9 +12,18 @@ nav{
     height: 8vh;
     padding-right: 1rem !important;
     font-size: 1.5rem;
+    position: relative;
 }
 nav small{
     font-size: 1.4rem;
+}
+nav button{
+    position: absolute;
+    height: 90%;
+    top: 50%;
+    left: 60%;
+    transform: translate(-50%, -50%);
+    
 }
 .swap-form {
     width: 400px;
@@ -37,4 +46,60 @@ input:focus{
 }
 form h3{
     text-align: center;
+}
+
+/* Modal */
+.modal{
+    background-color: rgba(0,0,0,0.7);
+    width: 40vw;
+    height: 30vh;
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: rgba(255, 255, 255);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.modal form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.modal form input{
+    margin-bottom: 1rem;
+    text-align: center;
+}
+.modal form input::placeholder{
+    font-style: italic;
+}
+.modal form button{
+    background-color: green;
+    color: rgba(255, 255, 255, 0.8);
+}
+button{
+    border:none;
+}
+button:focus{
+    outline: none;
+}
+
+.tx-inferface{
+    position: relative;
+}
+
+.open-add-fund{
+    border: none;
+    text-align: center;
+    font-size: 0.8rem;
+    background-color: green;
+    color: rgba(255, 255, 255);
+    position:absolute;
+    top: -10%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 0.75rem;
+    border-radius: 3px;
 }

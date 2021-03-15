@@ -15,14 +15,18 @@ class Main extends Component {
     let content
     if(this.state.currentForm === 'eth to bsc') {
       content = <EthToBsc
-        ethBalance={this.props.ethBalance}
-        tokenBalance={this.props.tokenBalance}
+        allowedHydro={this.props.allowedHydro}
+        addFunds={this.props.addFunds}
+        ethToBscSwap ={this.props.ethToBscSwap}
+       
       />
     } 
     else{
       content = <BscToEth
-      ethBalance={this.props.ethBalance}
-        tokenBalance={this.props.tokenBalance}/>
+      allowedBep={this.props.allowedBep}
+      bscToEthSwap={this.props.bscToEthSwap}
+      addBep ={this.props.addBep}
+       />
     }
 
     return (
