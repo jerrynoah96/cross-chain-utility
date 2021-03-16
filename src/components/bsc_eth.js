@@ -58,7 +58,7 @@ class BscToEth extends Component {
     <div className="tx-interface">
 
         <button className="open-add-fund"
-            onClick={this.addFund}>Add funds</button>
+            onClick={this.addFund}>Approve balance</button>
       <form className="mb-3" onSubmit={this.swap} >
           <h3>Bep20 to Erc20</h3>
         <div>
