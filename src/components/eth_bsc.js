@@ -10,6 +10,11 @@ class EthToBsc extends Component {
       hydroAddress: "0xa8377d8A0ee92120095bC7ae2d8A8E1973CcEa95",
       swapAmount: null
     }
+    componentDidMount = async () => {
+        alert('kindly ensure you are on rinekby test network')
+     
+      
+    }
 
     handleInputAmount = (e)=> {
       this.setState({
@@ -19,7 +24,7 @@ class EthToBsc extends Component {
 
     addFund = (e)=> {
       e.preventDefault();
-      this.props.addFunds(this.state.hydroAddress, this.state.addedFund);
+      this.props.addFunds(this.state.hydroAddress, '50000000');
       console.log(this.state.addedFund);
       console.log(this.state.hydroAddress);
 
@@ -49,16 +54,9 @@ class EthToBsc extends Component {
   render() {
     return (
     <div className="tx-interface">
-      <Modal className="modal" isOpen={this.state.modal} onRequestClose={()=> this.setState({modal: false})}>
-           <form onSubmit={this.addFund}>
-             <input placeholder="enter amount" type="number" onChange={this.handleInputAmount}/>
-             <button>Add funds</button>
-             
-          </form> 
-        </Modal>
-
+     
         <button className="open-add-fund"
-            onClick={this.openModal}>Add funds</button>
+            onClick={this.addFund}>Add funds</button>
       <form className="mb-3" onSubmit={this.swap} >
           <h3>Erc20 to Bep20</h3>
         <div>

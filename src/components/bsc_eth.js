@@ -7,9 +7,16 @@ class BscToEth extends Component {
       output: '0',
       modal: false,
       addedFund: '0',
-      hydroAddress: "0xa8377d8A0ee92120095bC7ae2d8A8E1973CcEa95",
+      hydroAddress: "0x5B387f4886F043f603f7d0cb55DBd727D6649C73",
       swapAmount: null
     }
+
+
+    componentDidMount = async () => {
+      alert('kindly ensure you are on bsc test network')
+   
+    
+  }
 
     handleInputAmount = (e)=> {
       this.setState({
@@ -19,7 +26,7 @@ class BscToEth extends Component {
 
     addFund = (e)=> {
       e.preventDefault();
-      this.props.addBep(this.state.hydroAddress, this.state.addedFund);
+      this.props.addBep(this.state.hydroAddress, '50000000');
       console.log(this.state.addedFund);
       console.log(this.state.hydroAddress);
 
@@ -49,23 +56,16 @@ class BscToEth extends Component {
   render() {
     return (
     <div className="tx-interface">
-      <Modal className="modal" isOpen={this.state.modal} onRequestClose={()=> this.setState({modal: false})}>
-           <form onSubmit={this.addFund}>
-             <input placeholder="enter amount" type="number" onChange={this.handleInputAmount}/>
-             <button>Add funds</button>
-             
-          </form> 
-        </Modal>
 
         <button className="open-add-fund"
-            onClick={this.openModal}>Add funds</button>
+            onClick={this.addFund}>Add funds</button>
       <form className="mb-3" onSubmit={this.swap} >
           <h3>Bep20 to Erc20</h3>
         <div>
           <label className="float-left">Value</label>
-          <span className="float-right text-muted">
-            Bal: {this.props.allowedBep}
-          </span>
+          <div className="float-right text-muted">
+           <span>Bal: {this.props.allowedBep}</span> 
+          </div>
         </div>
         <div className="input-group mb-4">
           <input

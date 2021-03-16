@@ -11,7 +11,13 @@ class Main extends Component {
     }
   }
 
+ 
+  
+
   render() {
+
+    
+
     let content
     if(this.state.currentForm === 'eth to bsc') {
       content = <EthToBsc
@@ -23,7 +29,7 @@ class Main extends Component {
     } 
     else{
       content = <BscToEth
-      allowedBep={this.props.allowedBep}
+      allowedBep={this.props.bepBalance}
       bscToEthSwap={this.props.bscToEthSwap}
       addBep ={this.props.addBep}
        />
@@ -45,7 +51,7 @@ class Main extends Component {
           <button
               className="btn btn-light"
               onClick={(event) => {
-                this.setState({ currentForm: 'sell' })
+                this.setState({ currentForm: 'bsc to eth' })
               }}
             >
             Bsc_to_Eth

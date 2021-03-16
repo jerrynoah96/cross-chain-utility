@@ -14,6 +14,7 @@ class App extends Component {
   state = {
     account: '',
     hydroBalance: '0',
+    bepBalance: '0',
     allowedHydro: '0',
     allowedBep: '0',
     loading: true,
@@ -23,7 +24,8 @@ class App extends Component {
     bepHydroAddress: null,
     ethToBscInstance: null,
     BscToEthInstance: null,
-    bepHydroInstance: null
+    bepHydroInstance: null,
+    currentForm: ''
    
   }
 
@@ -34,6 +36,9 @@ class App extends Component {
      this.setState({
         web3
       })
+
+      const currrentNetwork = await web3.eth.net.getNetworkType();
+    console.log(currrentNetwork, 'current network')
 
       this.setState({
         loading: false
@@ -54,10 +59,12 @@ class App extends Component {
       this.setState({
         hydroInstance
       })
-      
-      console.log(this.state.hydroInstance, 'hydro instance')
 
-     console.log( this.displayApprovedFund());
+      this.displayApprovedFund();
+
+    //  this.displayApprovedBep();
+      
+    
 
       //LOAD BEPHYDRO TOKEN
       const bepHydroAddress = "0x5B387f4886F043f603f7d0cb55DBd727D6649C73";
@@ -70,9 +77,22 @@ class App extends Component {
         bepHydroInstance
       })
 
+    const bepBal = await this.state.bepHydroInstance.methods.balanceOf(this.state.account).call();
+   const bepBalance = this.state.web3.utils.fromWei(bepBal.toString(), 'ether');
+
+   this.setState({
+     bepBalance
+
+   }) 
+
+      console.log(this.state.bepBalance, 'bephydro bal')
+
+      
       
 
-      //LOAD TOKEN SWAP CONTRACT- Eth TO ETH
+      
+
+      //LOAD TOKEN SWAP CONTRACT- Eth TO BSC
       const swapEthToBsc = "0xCDEF517c07eB3DF1F0eD4AFCCaC400215Af88959";
       const ethToBscInstance = new web3.eth.Contract(EthToBscAbi, swapEthToBsc);
       this.setState({
@@ -82,7 +102,7 @@ class App extends Component {
       console.log(this.state.ethToBscInstance)
 
       //LOAD TOKEN SWAP CONTRACT- BSC TO ETH
-      const swapBscToEth = "0x8D1DC59cB61D33FeabCf9179E2b76a896E305661";
+      const swapBscToEth = "0x662D7C30F16a30214f20257bbDd8b3997Ec0204d";
       const BscToEthInstance = new web3.eth.Contract(BscToEthAbi, swapBscToEth);
       this.setState({
         BscToEthInstance
@@ -91,7 +111,7 @@ class App extends Component {
       console.log(this.state.BscToEthInstance);
 
 
-      
+    
 
       // Get the contract instance.
      
@@ -108,17 +128,36 @@ class App extends Component {
     }
   };
 
+//for erc hydro
   displayApprovedFund= async ()=> {
-    const res = await this.state.hydroInstance.methods.allowance(this.state.account, this.state.hydroAddress).call();
-   const allowedHydro = this.state.web3.utils.fromWei(res.toString(), 'wei');
+    const res = await this.state.hydroInstance.methods.balanceOf(this.state.account).call();
+   const hydroBalance = this.state.web3.utils.fromWei(res.toString(), 'ether');
 
    this.setState({
-     allowedHydro
+     hydroBalance
 
    })
    
 
   }
+
+  //for bep hydro
+/*  displayApprovedBep = async()=> {
+
+    const res = await this.state.bepHydroInstance.methods.balanceOf(this.state.account).call();
+   const bepBalance = this.state.web3.utils.fromWei(res.toString(), 'wei');
+
+   this.setState({
+     bepBalance
+
+   }) 
+
+   
+   
+
+  } */
+
+
 
   addFunds = async (address, amount)=> {
 
@@ -140,6 +179,14 @@ class App extends Component {
     await this.state.BscToEthInstance.methods.swap(this.state.web3.utils.fromWei(amount.toString(), 'wei')).send({
       from: this.state.account
     })
+    
+
+  }
+
+  addBep = async(address, amount)=> {
+    await this.state.bepHydroInstance.methods.approve(address, amount).send({
+      from: this.state.account
+    })
 
   }
 
@@ -153,10 +200,13 @@ class App extends Component {
       content = <p id="loader" className="text-center">Loading...</p>
     } else {
       content = <Main
-      allowedHydro={this.state.allowedHydro}
+      allowedHydro={this.state.hydroBalance}
+      bepBalance = {this.state.bepBalance}
       addFunds={this.addFunds}
       ethToBscSwap={this.ethToBscSwap}
-      bscToEthSwap={this.bscToEthSwap}/>
+      bscToEthSwap={this.bscToEthSwap}
+      getCurrentForm={this.getCurrentForm}
+      addBep={this.addBep}/>
     }
 
     return (
